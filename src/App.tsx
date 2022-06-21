@@ -1,13 +1,8 @@
-import { Header } from "./components/Header";
-import { TabLessons } from "./components/Lessons/TabLessons";
-
+import { Event } from "./pages/Event";
 
 export function App() {
 
   return (
-    <div className="w-screen h-screen">
-      <Header />
-      <TabLessons />
-    </div>
+    <Event />
   )
 }
