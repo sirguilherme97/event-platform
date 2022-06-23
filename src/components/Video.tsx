@@ -1,14 +1,14 @@
-import { DefaultUi, Player, Youtube, LoadingScreen } from "@vime/react";
+import { DefaultUi, Player, Youtube } from "@vime/react";
 import { CaretRight, DiscordLogo, FileArrowDown, Image, Lightning } from "phosphor-react";
 import { gql, useQuery } from "@apollo/client";
 import '@vime/core/themes/default.css'
 
 
 interface LessonSlug {
-  lesssonSlug: string;
+  lessonSlug: string;
 }
 
-interface GetLesssonBySlugResponse {
+interface GetLessonBySlugResponse {
   lesson: {
     title: string;
     videoId: string;
@@ -22,7 +22,7 @@ interface GetLesssonBySlugResponse {
 }
 
 const GET_LESSON_BY_SLUG_QUERY = gql`
-query GetLesssonBySlug($slug:String) {
+query GetLessonBySlug($slug:String) {
   lesson(where: {slug: $slug}) {
     title
     videoId
@@ -38,12 +38,13 @@ query GetLesssonBySlug($slug:String) {
 `
 
 export function Video(props: LessonSlug) {
-  const { data } = useQuery<GetLesssonBySlugResponse>(GET_LESSON_BY_SLUG_QUERY, {
+  const { data } = useQuery<GetLessonBySlugResponse>(GET_LESSON_BY_SLUG_QUERY, {
     variables: {
-      slug: props.lesssonSlug
+      slug: props.lessonSlug
     }
   })
 
+  console.log(data)
   if (!data) {
     return (
       <div className="flex-1">
@@ -59,7 +60,6 @@ export function Video(props: LessonSlug) {
           <Player>
             <Youtube videoId={data.lesson.videoId} />
             <DefaultUi />
-            <LoadingScreen />
           </Player>
         </div>
       </div>
