@@ -3,13 +3,7 @@ import { useState, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { Logo } from "../components/Logo";
 
-const CREATE_SUBSCRIBER_MUTATION = gql`
-    mutation CreateSubscriber ($name:String!, $email:String!){
-        createSubscriber(data: {name: $name, email: $email}) {
-            id
-        }
-    }
-`
+
 export function Subscrible() {
     const navigate = useNavigate()
     const [name, setName] = useState('')
@@ -60,7 +54,7 @@ export function Subscrible() {
                     </div>
                 </div>
             </div>
-            <img src="/src/assets/code.png" className="mt-10" alt="Image Code" />
+            <img src="./src/assets/code.png" className="mt-8" alt="Image Code" />
         </div>
     )
 }

@@ -2,48 +2,21 @@ import { DefaultUi, Player, Youtube } from "@vime/react";
 import { CaretRight, DiscordLogo, FileArrowDown, Image, Lightning } from "phosphor-react";
 import { gql, useQuery } from "@apollo/client";
 import '@vime/core/themes/default.css'
+import { useGetLessonBySlugQuery } from "../graphql/generated";
 
 
 interface LessonSlug {
   lessonSlug: string;
 }
 
-interface GetLessonBySlugResponse {
-  lesson: {
-    title: string;
-    videoId: string;
-    description: string;
-    teacher: {
-      name: string;
-      bio: string;
-      avatarURL: string;
-    }
-  }
-}
-
-const GET_LESSON_BY_SLUG_QUERY = gql`
-query GetLessonBySlug($slug:String) {
-  lesson(where: {slug: $slug}) {
-    title
-    videoId
-    description
-    teacher {
-      name
-      bio
-      avatarURL
-    }
-  }
-}
-
-`
 export function Video(props: LessonSlug) {
-  const { data } = useQuery<GetLessonBySlugResponse>(GET_LESSON_BY_SLUG_QUERY, {
+  const { data } = useGetLessonBySlugQuery({
     variables: {
       slug: props.lessonSlug
     }
   })
 
-  if (!data) {
+  if (!data || !data.lesson) {
     return (
       <div className="flex-1">
         <div className="w-full h-1/2 flex justify-center items-center">
@@ -83,18 +56,19 @@ export function Video(props: LessonSlug) {
               href="#"><Lightning size={24} /> Acesse o desafio
             </a>
           </div>
-
         </div>
-        <div className="flex items-center gap-4 mt-6">
-          <img
-            className="h-16 w-16 rounded-full border-2 border-blue-500 "
-            src={data.lesson.teacher.avatarURL}
-            alt="Imagem do Professor" />
-          <div className="leading-relaxed">
-            <strong className="font-bold text-2xl block">{data.lesson.teacher.name}</strong>
-            <span className="text-gray-200 text-sm block">{data.lesson.teacher.bio}</span>
+        {data.lesson.teacher && (
+          <div className="flex items-center gap-4 mt-6">
+            <img
+              className="h-16 w-16 rounded-full border-2 border-blue-500 "
+              src={data.lesson.teacher.avatarURL}
+              alt="Imagem do Professor" />
+            <div className="leading-relaxed">
+              <strong className="font-bold text-2xl block">{data.lesson.teacher.name}</strong>
+              <span className="text-gray-200 text-sm block">{data.lesson.teacher.bio}</span>
+            </div>
           </div>
-        </div>
+        )}
         <div className="gap-8 mt-20 grid grid-cols-2">
           <a
             className="bg-gray-700 rounded overflow-hidden flex items-stretch gap-6 hover:bg-gray-600 transition-colors"
