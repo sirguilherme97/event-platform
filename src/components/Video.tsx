@@ -46,7 +46,9 @@ export function Video(props: LessonSlug) {
   if (!data) {
     return (
       <div className="flex-1">
-        <p className="text-2xl font-bold ">Carregando...</p>
+        <div className="w-full h-1/2 flex justify-center items-center">
+          <h1 className="text-3xl font-medium">Carregando... </h1>
+        </div>
       </div>
     )
   }
