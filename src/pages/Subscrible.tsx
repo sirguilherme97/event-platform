@@ -2,7 +2,7 @@ import { useState, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { Logo } from "../components/Logo";
 import { useCreateSubscriberMutation } from "../graphql/generated";
-
+import CodeImage from '../assets/code.png';
 
 export function Subscrible() {
     const navigate = useNavigate()
@@ -54,7 +54,7 @@ export function Subscrible() {
                     </div>
                 </div>
             </div>
-            <img src="./src/assets/code.png" className="mt-8" alt="Image Code" />
+            <img src={CodeImage} className="mt-8" alt="Image Code" />
         </div>
     )
 }
